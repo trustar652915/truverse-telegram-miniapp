@@ -1,3 +1,28 @@
+import { useEffect, useState } from 'react';
+
+export default function Home() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
+      const webApp = window.Telegram.WebApp;
+      webApp.ready();
+      setUser(webApp.initDataUnsafe.user);
+    }
+  }, []);
+
+  return (
+    <div>
+      <h1>Welcome to the Telegram Mini App!</h1>
+      {user ? (
+        <p>Hello, {user.first_name}!</p>
+      ) : (
+        <p>Loading Telegram user info...</p>
+      )}
+      {/* Your app content goes here */}
+    </div>
+  );
+}
 
 import { useEffect } from "react";
 
