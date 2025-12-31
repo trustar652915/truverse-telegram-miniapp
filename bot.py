@@ -3,7 +3,7 @@ print("Starting bot...")
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-BOT_TOKEN = '8397198195:AAGdvw0azimzo-j--Mn33qV57sHYMV5vqeQ'
+BOT_TOKEN = '8397198195:AAHvk_rYe0-peYUkeTB63PCZD29KK3fO2nM'
 MINI_APP_URL = 'https://truverse-telegram-miniapp-git-main-trustar652915s-projects.vercel.app/'
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
