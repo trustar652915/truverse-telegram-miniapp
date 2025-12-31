@@ -1,0 +1,41 @@
+// pages/api/validate-telegram.js
+import crypto from 'crypto';
+
+export default function handler(req, res) {
+  const { initData, botToken } = req.body;
+
+  // Parse the initData string into an object
+  const params = new URLSearchParams(initData);
+  const data = {};
+  for (const [key, value] of params.entries()) {
+    data[key] = value;
+  }
+
+  // Extract the hash and remove it from data
+  const hash = data.hash;
+  delete data.hash;
+
+  // Sort and concatenate the data
+  const dataCheckString = Object.keys(data)
+    .sort()
+    .map(key => `${key}=${data[key]}`)
+    .join('\n');
+
+  // Create a secret key using your bot token
+  const secretKey = crypto
+    .createHmac('sha256', 'WebAppData')
+    .update(botToken)
+    .digest();
+
+  // Calculate the hash
+  const calculatedHash = crypto
+    .createHmac('sha256', secretKey)
+    .update(dataCheckString)
+    .digest('hex');
+
+  if (calculatedHash === hash) {
+    res.status(200).json({ ok: true, user: data.user });
+  } else {
+    res.status(401).json({ ok: false, error: 'Invalid auth' });
+  }
+}
